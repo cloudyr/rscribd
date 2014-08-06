@@ -1,0 +1,31 @@
+# rscribd Package #
+
+**rscribd** allows users to publish and retrieve documents from the [Scribd](http://www.scribd.com/) publishing platform.
+
+## Requirements and Installation ##
+
+[![Build Status](https://travis-ci.org/leeper/rscribd.png?branch=master)](https://travis-ci.org/leeper/rscribd)
+
+**rscribd** will eventually be available on [CRAN](http://cran.r-project.org/web/packages/rscribd/index.html), so that it can be installed using:
+
+```
+install.packages('rscribd')
+```
+
+The development version can be installed directly from GitHub using `devtools`:
+
+```
+if(!require('devtools')) {
+    install.packages('devtools')
+    library('devtools')
+}
+install_github('leeper/rscribd')
+```
+
+## Example Usage ##
+
+Below are some simple code examples demonstrating package functionality.
+
+[Usage limits](http://www.scribd.com/developers/platform#limits) for the API are very generous and it is highly unlikely you will reach them.
+
+Coming soon...

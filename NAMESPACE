@@ -1,0 +1,33 @@
+# import functions
+import(httr)
+importFrom(RCurl, fileUpload)
+importFrom(tools, file_ext)
+importFrom(digest, digest)
+
+# export functions
+## user sign-in functions
+export(scribd_query)
+export(scribd_signup)
+export(get_signin_url)
+
+## docs
+export(doc_list)
+export(upload_doc)
+export(upload_thumbnail)
+export(conversion_status)
+export(change_doc)
+export(download_doc)
+export(delete_doc)
+export(search_docs)
+export(doc_categories)
+export(featured_docs)
+export(browse_docs)
+
+## collections
+export(coll_list)
+export(coll_create)
+export(coll_update)
+export(coll_delete)
+export(coll_add)
+export(coll_remove)
+export(coll_docs)
