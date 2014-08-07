@@ -56,7 +56,7 @@ function(scope = "new",
                  ...)
 }
 
-docs_browser <- 
+docs_browse <- 
 function(sort = "popular",
          limit = NULL,
          offset = NULL,
