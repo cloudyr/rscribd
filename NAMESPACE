@@ -14,16 +14,21 @@ export(get_signin_url)
 
 ## docs
 export(doc_list)
-export(upload_doc)
+export(doc_upload)
 export(upload_thumbnail)
 export(conversion_status)
-export(change_doc)
-export(download_doc)
-export(delete_doc)
-export(search_docs)
-export(doc_categories)
-export(featured_docs)
-export(browse_docs)
+export(doc)
+export(doc_stats)
+export(doc_settings)
+export(doc_change)
+export(doc_delete)
+export(doc_thumbnail)
+
+## doc search
+export(docs_search)
+export(docs_categories)
+export(docs_featured)
+export(docs_browse)
 
 ## collections
 export(coll_list)
