@@ -2,24 +2,24 @@ scribd_query <-
 function(method, 
          base_url = "http://api.scribd.com/api", 
          verb = "GET",
-         api_key,
-         session_key = NULL,
-         my_user_id = NULL,
-         signature = FALSE,
+         api_key = getOption("scribd_api_key"),
+         session_key = getOption("scribd_session_key", NULL),
+         my_user_id = getOption("scribd_user", NULL),
+         secret_key = getOption("scribd_secret_key", NULL),
          ...){
     # request signing
-    if(signature){
+    if(!is.null(secret_key)){
         # alphabetically sort args by arg name (exclude `file` arg, if applicable)
         a <- list()
-        # concatenate without separators
-        s <- paste0(names(a), a, collapse="")
+        # concatenate secret key and args without separators
+        s <- paste0(secret_key, names(a), a, collapse="")
         # md5 encode
         d <- digest(s, algo="md5")
         a <- append(a, c(api_sig = d))
     }
     
     # if no session_key, then pass a session-specific `my_user_id` variable (stored/retrieved from `options`)
-    # OR, if no session_key but api_key is not mine, allow the operation anonymously
+    # OR, if no session_key but api_key, allow the operation anonymously
     
     # execute request
     if(verb == "GET"){
