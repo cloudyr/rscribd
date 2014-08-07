@@ -5,12 +5,10 @@ importFrom(digest, digest)
 importFrom(tools, file_ext)
 importFrom(utils, URLencode)
 
-
 # export functions
 ## user sign-in functions
 export(scribd_query)
 export(scribd_signup)
-export(get_signin_url)
 
 ## docs
 export(doc_list)

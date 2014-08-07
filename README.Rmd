@@ -41,7 +41,7 @@ Coming soon...
 
 
 
-If you are trying to build a public-facing app on top of **rscribd**, you may also want to leverage a user-specific session key returned by `scribd_login`. This allows user-specific operations without requiring users to register an API key and pass it via the `api_key` argument. Once a session key is obtained, it can be passed to any **rscribd** function using the `session_key` argument (or have that argument set globally using `options(scribd_session_key)`). If this value is not specified, all operations are performed on the account associated with the API key.
+If you are trying to build a public-facing app on top of **rscribd**, you may also want to leverage a user-specific session key returned by `scribd_login`. This allows user-specific operations without requiring users to register an API key. Once a session key is obtained, it can be passed to any **rscribd** function using the `session_key` argument (or have that argument set globally using `options(scribd_session_key)`). The session key is reasonably long lived. If this value is not specified, all operations are performed (by default) on the account associated with the API key.
 
 Coming soon...
 
