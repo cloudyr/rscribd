@@ -13,7 +13,7 @@ function(access = NULL, ...){
 coll_create <- 
 function(name,
          description,
-         access = "private",
+         access = "public",
          ...
 ){
     a <- list()
@@ -55,26 +55,6 @@ function(id, ...){
     a <- list()
     a$collection_id <- id
     scribd_query(method = "collections.delete", 
-                 args = a,
-                 ...)
-}
-
-coll_add <- 
-function(id, doc, ...){
-    a <- list()
-    a$collection_id <- id
-    a$doc_id <- doc
-    scribd_query(method = "collections.addDoc", 
-                 args = a,
-                 ...)
-}
-
-coll_remove <- 
-function(id, doc, ...){
-    a <- list()
-    a$collection_id <- id
-    a$doc_id <- doc
-    scribd_query(method = "collections.removeDoc", 
                  args = a,
                  ...)
 }

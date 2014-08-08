@@ -6,8 +6,9 @@
 doc_upload <-
 function(file = NULL,
          url = NULL,
-         access = "public",
          doc = NULL,
+         ext = NULL,
+         access = "public",
          paid_content = FALSE,
          drm = NULL,
          wait = FALSE,
@@ -30,7 +31,13 @@ function(file = NULL,
     }
     
     if(!is.null(file)){
-        stopifnot(file_ext(file) %in% .filetypes)
+        if(!is.null(ext)) {
+            stopifnot(ext %in% .filetypes)
+            a$doc_type <- ext
+        } else {
+            stopifnot(file_ext(file) %in% .filetypes)
+            a$doc_type <- file_ext(file)
+        }
         out <-
         scribd_query(method = "docs.upload", 
                      args = a,
@@ -38,6 +45,10 @@ function(file = NULL,
                      body = list(file = upload_file(file)),
                      ...)
     } else if(!is.null(url)){
+        if(!is.null(ext)) {
+            stopifnot(ext %in% .filetypes)
+            a$doc_type <- ext
+        }
         a$url <- URLencode(URLencode(url), reserved = TRUE)
         out <-
         scribd_query(method = "docs.uploadFromUrl", 

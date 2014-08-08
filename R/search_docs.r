@@ -3,8 +3,8 @@ function(query,
          category = NULL,
          language = NULL, # ISO 639-1 format
          simple = TRUE,
-         num_start = 0,
-         num_results = 10,
+         limit = 10,
+         offset = 0,
          ...
 ){
     a <- list()
@@ -13,10 +13,10 @@ function(query,
     if(!is.null(language))
         a$language <- language 
     a$simple <- as.integer(simple)
-    stopifnot(num_start <= 1000)
-    a$num_start <- num_start
-    stopifnot(num_results <= 1000)
-    a$num_results <- num_results
+    stopifnot(offset <= 1000)
+    a$num_start <- offset
+    stopifnot(limit <= 1000)
+    a$num_results <- limit
     scribd_query(method = "docs.search", 
                  args = a,
                  ...)
@@ -39,18 +39,18 @@ function(category = NULL,
 }
 
 docs_featured <- 
-function(scope = "new",
-         limit = NULL,
-         offset = NULL,
+function(scope = "hot",
+         limit = 20,
+         offset = 0,
          ...
 ){
     a <- list()
     stopifnot(scope %in% c("new","hot"))
     a$scope <- scope
-    if(!is.null(limit))
-        a$limit <- limit
-    if(!is.null(offset))
-        a$offset <- offset
+    stopifnot(offset <= 1000)
+    a$offset <- offset
+    stopifnot(limit <= 1000)
+    a$limit <- limit
     scribd_query(method = "docs.featured", 
                  args = a,
                  ...)
@@ -58,8 +58,8 @@ function(scope = "new",
 
 docs_browse <- 
 function(sort = "popular",
-         limit = NULL,
-         offset = NULL,
+         limit = 20,
+         offset = 0,
          ...
 ){
     a <- list()
