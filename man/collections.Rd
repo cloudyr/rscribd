@@ -29,7 +29,7 @@ coll_docs(id, limit = 20, offset = 0, ...)
 \code{\link{coll_add}}, \code{\link{coll_remove}}
 }
 \examples{
-\donrun{
+\dontrun{
 # my public documents
 coll_list("public")
 
