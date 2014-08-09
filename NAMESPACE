@@ -20,6 +20,7 @@ export(doc_settings)
 export(doc_change)
 export(doc_delete)
 export(doc_thumbnail)
+export(doc_embed)
 
 ## doc search
 export(docs_list)

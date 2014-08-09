@@ -201,9 +201,6 @@ hr {
 }
 </code></pre>
 
-<pre><code>## Loading required package: rscribd
-</code></pre>
-
 <p>A development version of <strong>rscribd</strong> is also available on <a href="http://www.github.com/leeper/rscribd">GitHub</a>, which can be installed using:</p>
 
 <pre><code>library(&quot;devtools&quot;)
@@ -242,10 +239,10 @@ doc_output &lt;- &quot;knitr-minimal.pdf&quot;
 <pre><code class="r">print(mydoc)
 </code></pre>
 
-<pre><code>## Document:  236326170 
+<pre><code>## Document:  236332715 
 ## List of 3
-##  $ doc_id    : chr &quot;236326170&quot;
-##  $ access_key: chr &quot;key-YRAq7CggkR9ZY8MPh9gD&quot;
+##  $ doc_id    : chr &quot;236332715&quot;
+##  $ access_key: chr &quot;key-gu9eSEe8eyFij9vaPTLJ&quot;
 ##  $ .attrs    : Named chr &quot;ok&quot;
 </code></pre>
 
@@ -254,10 +251,10 @@ doc_output &lt;- &quot;knitr-minimal.pdf&quot;
 <pre><code class="r">doc_settings(mydoc$doc_id)
 </code></pre>
 
-<pre><code>## Document:  236326170 
+<pre><code>## Document:  236332715 
 ## List of 17
 ##  $ block_count        : chr &quot;0&quot;
-##  $ doc_id             : chr &quot;236326170&quot;
+##  $ doc_id             : chr &quot;236332715&quot;
 ##  $ title              :List of 1
 ##   ..$ : NULL
 ##  $ description        :List of 1
@@ -266,7 +263,7 @@ doc_output &lt;- &quot;knitr-minimal.pdf&quot;
 ##  $ license            : chr &quot;c&quot;
 ##  $ tags               :List of 1
 ##   ..$ : NULL
-##  $ access_key         : chr &quot;key-YRAq7CggkR9ZY8MPh9gD&quot;
+##  $ access_key         : chr &quot;key-gu9eSEe8eyFij9vaPTLJ&quot;
 ##  $ thumbnail_url      :List of 1
 ##   ..$ : NULL
 ##  $ page_count         : chr &quot;0&quot;
@@ -285,10 +282,10 @@ doc_output &lt;- &quot;knitr-minimal.pdf&quot;
 <pre><code class="r">doc_change(mydoc$doc_id, title = &quot;My first rscribd upload&quot;, description = &quot;A knitr/rscribd example&quot;)
 </code></pre>
 
-<pre><code>## Document:  236326170 
+<pre><code>## Document:  236332715 
 ## List of 17
 ##  $ block_count        : chr &quot;0&quot;
-##  $ doc_id             : chr &quot;236326170&quot;
+##  $ doc_id             : chr &quot;236332715&quot;
 ##  $ title              :List of 1
 ##   ..$ : NULL
 ##  $ description        :List of 1
@@ -297,7 +294,7 @@ doc_output &lt;- &quot;knitr-minimal.pdf&quot;
 ##  $ license            : chr &quot;c&quot;
 ##  $ tags               :List of 1
 ##   ..$ : NULL
-##  $ access_key         : chr &quot;key-YRAq7CggkR9ZY8MPh9gD&quot;
+##  $ access_key         : chr &quot;key-gu9eSEe8eyFij9vaPTLJ&quot;
 ##  $ thumbnail_url      :List of 1
 ##   ..$ : NULL
 ##  $ page_count         : chr &quot;0&quot;
@@ -340,10 +337,10 @@ doc_output &lt;- &quot;knitr-minimal.pdf&quot;
 </code></pre>
 
 <pre><code>## $result
-## Document:  236326170 
+## Document:  236332715 
 ## List of 16
-##  $ doc_id          : chr &quot;236326170&quot;
-##  $ access_key      : chr &quot;key-YRAq7CggkR9ZY8MPh9gD&quot;
+##  $ doc_id          : chr &quot;236332715&quot;
+##  $ access_key      : chr &quot;key-gu9eSEe8eyFij9vaPTLJ&quot;
 ##  $ title           :List of 1
 ##   ..$ : NULL
 ##  $ description     :List of 1
@@ -351,15 +348,15 @@ doc_output &lt;- &quot;knitr-minimal.pdf&quot;
 ##  $ tags            :List of 1
 ##   ..$ : NULL
 ##  $ license         : chr &quot;c&quot;
-##  $ thumbnail_url   : chr &quot;http://imgv2-3.scribdassets.com/img/word_document/236326170/111x142/ae4d807ec6/1407583187&quot;
+##  $ thumbnail_url   : chr &quot;http://imgv2-2.scribdassets.com/img/word_document/236332715/111x142/22cc96568d/1407586933&quot;
 ##  $ page_count      : chr &quot;0&quot;
 ##  $ download_formats: NULL
 ##  $ reads           : chr &quot;0&quot;
 ##  $ uploaded_by     :List of 1
 ##   ..$ : NULL
 ##  $ uploader_id     : chr &quot;260752990&quot;
-##  $ when_uploaded   : chr &quot;2014-08-09T11:19:46Z&quot;
-##  $ when_updated    : chr &quot;2014-08-09T11:19:47Z&quot;
+##  $ when_uploaded   : chr &quot;2014-08-09T12:22:13Z&quot;
+##  $ when_updated    : chr &quot;2014-08-09T12:22:13Z&quot;
 ##  $ block_count     : chr &quot;0&quot;
 ##  $ authors         : NULL
 </code></pre>
@@ -373,47 +370,25 @@ doc_output &lt;- &quot;knitr-minimal.pdf&quot;
 
 <h2>Embedding Scribd documents</h2>
 
-<p>Once uploaded to Scribd, this is what our knitr document looks like in a simple HTML-embedded reader:</p>
+<p>Once uploaded to Scribd, it is possible to embed the document in an HTML page:</p>
 
-<script type="text/javascript" src='http://www.scribd.com/javascripts/scribd_api.js'></script>
-
-<div id='embedded_doc'><a href='http://www.scribd.com'>Scribd</a></div>
-
-<script type='text/javascript'>
-
-var scribd_doc = scribd.Document.getDoc(236326170, 'key-YRAq7CggkR9ZY8MPh9gD');
-
-  var onDocReady = function(e){
-  // scribd_doc.api.setPage(3);
-  }
-
-  scribd_doc.addParam('jsapi_version', 2);
-  scribd_doc.addEventListener('docReady', onDocReady);
-  scribd_doc.write('embedded_doc');
-</script>
-
-<p>The source code to generate the above embed dynamically (for example, in an R vignette like this one or in a Shiny app) is:</p>
-
-<pre><code>&lt;script type=&quot;text/javascript&quot; src=&#39;http://www.scribd.com/javascripts/scribd_api.js&#39;&gt;&lt;/script&gt;
-
-&lt;div id=&#39;embedded_doc&#39;&gt;&lt;a href=&#39;http://www.scribd.com&#39;&gt;Scribd&lt;/a&gt;&lt;/div&gt;
-
-&lt;script type=&#39;text/javascript&#39;&gt;
-
-    ```r, echo=FALSE, results=&quot;asis&quot;
-    # write out the javascript necessary to do a document embed
-    cat(paste0(&quot;var scribd_doc = scribd.Document.getDoc(&quot;,mydoc$doc_id,&quot;, &#39;&quot;,mydoc$access_key,&quot;&#39;);&quot;))
-    ```
-
-  var onDocReady = function(e){
-  // scribd_doc.api.setPage(3);
-  }
-
-  scribd_doc.addParam(&#39;jsapi_version&#39;, 2);
-  scribd_doc.addEventListener(&#39;docReady&#39;, onDocReady);
-  scribd_doc.write(&#39;embedded_doc&#39;);
-&lt;/script&gt;
+<pre><code class="r">cat(doc_embed(mydoc))
 </code></pre>
+
+<script type="text/javascript" src="http://www.scribd.com/javascripts/scribd_api.js"></script>
+
+<div id="embedded_doc"><a href="http://www.scribd.com">Scribd</a></div>
+
+<script type="text/javascript">
+var scribd_doc = scribd.Document.getDoc(236332715, 'key-gu9eSEe8eyFij9vaPTLJ');
+
+scribd_doc.addParam("jsapi_version", 2);
+
+
+
+scribd_doc.write('embedded_doc');
+
+</script>
 
 </body>
 
