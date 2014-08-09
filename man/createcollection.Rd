@@ -12,7 +12,7 @@ coll_update(id, name = NULL, description = NULL, access = NULL, ...)
 coll_delete(id, ...)
 }
 \arguments{
-  \item{id}{A collection id (to either update or delete).}
+  \item{id}{A collection id (or object of class \dQuote{scribd_collection}) to either update or delete.}
   \item{name}{The name of the collection. This is optional for \code{coll_update}.}
   \item{description}{The description of the collection. This is optional for \code{coll_update}.}
   \item{access}{An access level for the collection; one of \dQuote{public} (the default) or \dQuote{private}. This is optional for \code{coll_update}.}

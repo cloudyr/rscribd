@@ -10,8 +10,8 @@ docs_categories(category = NULL, subs = FALSE, ...)
   \item{subs}{A logical indicating whether to return subcategory information.}
   \item{...}{Other arguments passed to HTTP request functions.}
 }
-%\details{}
-%\value{}
+\details{Returns a list of Scribd document categories.}
+\value{A list.}
 \references{
 \href{http://www.scribd.com/developers/platform/api/docs_getcategories}{API Reference: getCategories}
 }

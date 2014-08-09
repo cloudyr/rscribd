@@ -6,11 +6,11 @@
 doc_stats(doc, ...)
 }
 \arguments{
-  \item{doc}{A document id.}
+  \item{doc}{A document id (or object of class \dQuote{scribd_doc}).}
   \item{...}{Other arguments passed to HTTP request functions.}
 }
 \details{This retrieves statistics about a document from Scribd. To retrieve document metadata, instead use \code{\link{doc_settings}}.}
-%\value{}
+\value{A list.}
 \references{
 \href{http://www.scribd.com/developers/platform/api/docs_getstats}{API Reference: getStats}
 }

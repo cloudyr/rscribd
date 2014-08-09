@@ -6,11 +6,11 @@
 doc_delete(doc, ...)
 }
 \arguments{
-  \item{doc}{A document id to delete.}
+  \item{doc}{A document id (or object of class \dQuote{scribd_doc}) to delete.}
   \item{...}{Other arguments passed to HTTP request functions.}
 }
 \details{This deletes a document from Scribd. To simply remove a document from a collection, use \code{\link{coll_remove}}. To delete a collection, use \code{\link{coll_delete}}.}
-%\value{}
+\value{A logical.}
 \references{
 \href{http://www.scribd.com/developers/platform/api/docs_delete}{API Reference: delete}
 }

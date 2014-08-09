@@ -37,7 +37,7 @@ docs_list(limit = 20, offset = 0, ...)
 
 All of these functions can be paginated using the \code{limit} (page size) and \code{offset} (page start) parameters. For example, a call with \code{limit = 20, offset = 0} returns the first 20 results. A subsequent call to \code{limit = 20, offset = 20} returns the next 20 results.
 }
-%\value{}
+\value{A list of objects of class \dQuote{scribd_doc}.}
 \references{
 \href{http://www.scribd.com/developers/platform/api/docs_search}{API Reference: docs.search}
 
@@ -49,4 +49,15 @@ All of these functions can be paginated using the \code{limit} (page size) and \
 }
 \author{Thomas J. Leeper}
 %\seealso{}
-%\examples{}
+\examples{
+\dontrun{
+# get your own documents
+docs_list()
+
+# search public documents
+docs_search("John Chambers")
+
+# featured documents
+docs_featured()
+}
+}

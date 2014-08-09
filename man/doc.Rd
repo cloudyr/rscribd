@@ -9,7 +9,7 @@ doc(doc, fmt = "original", url_only = TRUE, ...)
 doc_thumbnail(doc, width = NULL, height = NULL, url_only = TRUE, ...)
 }
 \arguments{
-  \item{doc}{A document id to retrieve.}
+  \item{doc}{A document id (or object of class \dQuote{scribd_doc}) to retrieve.}
   \item{fmt}{One of \dQuote{pdf}, \dQuote{txt}, or \dQuote{original} (the default).}
   \item{width}{For \code{doc_thumbnail}, the width of the thumbnail in pixels.}
   \item{height}{For \code{doc_thumbnail}, the height of the thumbnail in pixels.}

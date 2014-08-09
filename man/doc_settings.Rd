@@ -14,7 +14,7 @@ doc_change(doc, isbn = NULL, title = NULL, description = NULL,
            disable_select_text = NULL, disable_related = NULL, ...)
 }
 \arguments{
-  \item{doc}{A document id to retrieve.}
+  \item{doc}{A document id (or object of class \dQuote{scribd_doc}) to retrieve.}
   \item{isbn}{Optionally, a character string containing an ISBN number.}
   \item{title}{Optionally, a character string containing a document title.}
   \item{description}{Optionally, a character string containing a document description.}
@@ -32,7 +32,7 @@ doc_change(doc, isbn = NULL, title = NULL, description = NULL,
   \item{...}{Other arguments passed to HTTP request functions.}
 }
 \details{\code{doc_settings} returns document settings and metadata. \code{doc_change} updates those settings and metadata. To retrieve view and download statistics, use \code{\link{doc_stats}} and to download a document itself use \code{\link{doc}}.}
-%\value{}
+\value{A list object of class \dQuote{scribd_doc}.}
 \references{
 \href{http://www.scribd.com/developers/platform/api/docs_getsettings}{API Reference: getSettings}
 
@@ -44,4 +44,10 @@ doc_change(doc, isbn = NULL, title = NULL, description = NULL,
 
 \code{\link{doc_upload}}, \code{\link{upload_thumbnail}}
 }
-%\examples{}
+\examples{
+\dontrun{
+mydoc <- "document_id"
+doc_settings(mydoc)
+doc_change(mydoc, title = "New Title", edition = "2")
+}
+}
