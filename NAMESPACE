@@ -36,3 +36,7 @@ export(coll_delete)
 export(coll_add)
 export(coll_remove)
 export(coll_docs)
+
+## print methods
+s3method(print, scribd_collection)
+s3method(print, scribd_doc)
