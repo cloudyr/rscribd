@@ -12,9 +12,16 @@ function(limit = 20,
         stopifnot(offset <= 1000)
         a$offset <- offset
     }
+    out <- 
     scribd_query(method = "docs.getList", 
                  args = a,
                  ...)
+    r <- as.list(out$resultset[".attrs"])
+    out <- 
+    lapply(out$resultset[names(out$resultset) == "result"], 
+           `class<-`, "scribd_doc")
+    attr(out, "results") <- r
+    out
 }
 
 docs_search <- 
@@ -27,6 +34,7 @@ function(query,
          ...
 ){
     a <- list()
+    a$query <- query
     if(!is.null(category))
         a$category_id <- category
     if(!is.null(language))
@@ -36,9 +44,16 @@ function(query,
     a$num_start <- offset
     stopifnot(limit <= 1000)
     a$num_results <- limit
+    out <- 
     scribd_query(method = "docs.search", 
                  args = a,
                  ...)
+    r <- as.list(out$resultset[".attrs"])
+    out <- 
+    lapply(out$resultset[names(out$resultset) == "result"], 
+           `class<-`, "scribd_doc")
+    attr(out, "results") <- r
+    out
 }
 
 docs_categories <- 
@@ -70,9 +85,16 @@ function(scope = "hot",
     a$offset <- offset
     stopifnot(limit <= 1000)
     a$limit <- limit
+    out <- 
     scribd_query(method = "docs.featured", 
                  args = a,
                  ...)
+    r <- as.list(out$result_set[".attrs"])
+    out <- 
+    lapply(out$result_set[names(out$result_set) == "result"], 
+           `class<-`, "scribd_doc")
+    attr(out, "results") <- r
+    out
 }
 
 docs_browse <- 
@@ -88,7 +110,14 @@ function(sort = "popular",
         a$limit <- limit
     if(!is.null(offset))
         a$offset <- offset
+    out <- 
     scribd_query(method = "docs.browse", 
                  args = a,
                  ...)
+    r <- as.list(out$result_set[".attrs"])
+    out <- 
+    lapply(out$result_set[names(out$result_set) == "result"], 
+           `class<-`, "scribd_doc")
+    attr(out, "results") <- r
+    out
 }

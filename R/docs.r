@@ -5,6 +5,8 @@ function(doc,
          ...
 ){
     a <- list()
+    if(inherits(doc, "scribd_doc"))
+        doc <- doc$doc_id
     a$doc_id <- doc
     stopifnot(fmt %in% c("pdf","txt","original"))
     a$doc_type <- fmt
@@ -20,7 +22,8 @@ function(doc,
             else
                 return(content(f, as="raw"))
         } else {
-            stop("Download link is NULL")
+            warning("Download link is NULL")
+            return(out)
         }
     } else
         return(out)
@@ -33,6 +36,8 @@ function(doc,
          url_only = TRUE,
          ...){
     a <- list()
+    if(inherits(doc, "scribd_doc"))
+        doc <- doc$doc_id
     a$doc_id <- doc
     if(!is.null(width))
         a$width <- width
@@ -56,6 +61,8 @@ function(doc,
 doc_stats <- 
 function(doc, ...){
     a <- list()
+    if(inherits(doc, "scribd_doc"))
+        doc <- doc$doc_id
     a$doc_id <- doc
     scribd_query(method = "docs.getStats", 
                  args = a,
@@ -65,10 +72,15 @@ function(doc, ...){
 doc_settings <-
 function(doc, ...){
     a <- list()
+    if(inherits(doc, "scribd_doc"))
+        doc <- doc$doc_id
     a$doc_id <- doc
+    out <- 
     scribd_query(method = "docs.getSettings", 
                  args = a,
                  ...)
+    class(out) <- "scribd_doc"
+    out
 }
 
 doc_change <- 
@@ -90,6 +102,8 @@ function(doc,
          ...
 ){
     a <- list()
+    if(inherits(doc, "scribd_doc"))
+        doc <- doc$doc_id
     a$doc_ids <- paste(doc, collapse=",")
     if(!is.null(isbn))
         a$isbn <- isbn
@@ -128,18 +142,21 @@ function(doc,
     if(!is.null(disable_related))
         a$disable_related_docs <- as.integer(disable_related)
     
+    out <- 
     scribd_query(method = "docs.changeSettings", 
                  args = a,
                  ...)
-
+    class(out) <- "scribd_doc"
+    out
 }
 
 doc_delete <- 
 function(doc, ...){
     a <- list()
+    if(inherits(doc, "scribd_doc"))
+        doc <- doc$doc_id
     a$doc_id <- doc
     scribd_query(method = "docs.delete", 
                  args = a,
                  ...)
-
 }

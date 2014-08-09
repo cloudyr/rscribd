@@ -20,6 +20,8 @@ function(file = NULL,
         a$access <- access
     }
     if(!is.null(doc)){
+        if(inherits(doc, "scribd_doc"))
+            doc <- doc$doc_id
         a$rev_id <- doc
     }
     a$paid_content <- as.integer(paid_content)
@@ -53,6 +55,7 @@ function(file = NULL,
         out <-
         scribd_query(method = "docs.uploadFromUrl", 
                      args = a, ...)
+        class(out) <- "scribd_doc"
     } else {
         stop("Must specify `file` or `url`")
     }
@@ -71,6 +74,8 @@ function(file = NULL,
 }
 
 upload_thumbnail <- function(file, doc, ...){
+    if(inherits(doc, "scribd_doc"))
+        doc <- doc$doc_id
     a <- list(doc_id = doc)
     scribd_query(method = "docs.getConversionStatus", 
                  args = a,
@@ -80,8 +85,10 @@ upload_thumbnail <- function(file, doc, ...){
 }
 
 conversion_status <- function(doc, ...){
+    if(inherits(doc, "scribd_doc"))
+        doc <- doc$doc_id
     a <- list(doc_id = doc)
     scribd_query(method = "docs.getConversionStatus", 
                  args = a,
-                 ...)
+                 ...)$conversion_status
 }

@@ -5,9 +5,12 @@ function(access = NULL, ...){
         stopifnot(access %in% c("public","private"))
         a$scope <- access
     }
+    out <- 
     scribd_query(method = "collections.getlist", 
                  args = a,
                  ...)
+    lapply(out$resultset[names(out$resultset) == "result"], 
+           `class<-`, "scribd_collection")
 }
 
 coll_create <- 
@@ -23,9 +26,12 @@ function(name,
         stopifnot(access %in% c("public","private"))
         a$privacy_type <- access
     }
+    out <- 
     scribd_query(method = "collections.create", 
                  args = a,
                  ...)
+    class(out) <- "scribd_collection"
+    out
 }
 
 coll_update <- 
@@ -36,6 +42,8 @@ function(id,
          ...
 ){
     a <- list()
+    if(inherits(id, "scribd_collection"))
+        id <- id$collection_id
     a$collection_id <- id
     if(!is.null(name))
         a$name <- name
@@ -45,14 +53,19 @@ function(id,
         stopifnot(access %in% c("public","private"))
         a$privacy_type <- access
     }
+    out <- 
     scribd_query(method = "collections.update", 
                  args = a,
                  ...)
+    class(out) <- "scribd_collection"
+    out
 }
 
 coll_delete <- 
 function(id, ...){
     a <- list()
+    if(inherits(id, "scribd_collection"))
+        id <- id$collection_id
     a$collection_id <- id
     scribd_query(method = "collections.delete", 
                  args = a,
@@ -74,10 +87,15 @@ function(id,
         stopifnot(offset <= 1000)
         a$offset <- offset
     }
+    if(inherits(id, "scribd_collection"))
+        id <- id$collection_id
     a$collection_id <- id
+    out <- 
     scribd_query(method = "collections.listDocs", 
                  args = a,
                  ...)
+    lapply(out$resultset[names(out$resultset) == "result"], 
+           `class<-`, "scribd_doc")
 }
 
 coll_add <- 
@@ -85,7 +103,11 @@ function(id,
          doc, 
          ...){
     a <- list()
+    if(inherits(id, "scribd_collection"))
+        id <- id$collection_id
     a$collection_id <- id
+    if(inherits(doc, "scribd_doc"))
+        doc <- doc$doc_id
     a$doc_id <- doc
     scribd_query(method = "collections.addDoc", 
                  args = a,
@@ -97,7 +119,11 @@ function(id,
          doc, 
          ...){
     a <- list()
+    if(inherits(id, "scribd_collection"))
+        id <- id$collection_id
     a$collection_id <- id
+    if(inherits(doc, "scribd_doc"))
+        doc <- doc$doc_id
     a$doc_id <- doc
     scribd_query(method = "collections.removeDoc", 
                  args = a,

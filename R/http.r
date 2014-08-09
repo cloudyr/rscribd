@@ -23,6 +23,9 @@ function(method,
     } else
         stop("Must supply `api_key`")
     
+    if(!is.null(my_user_id))
+        args$my_user_id <- my_user_id
+    
     # request signing
     if(!is.null(secret_key)){
         # alphabetically sort args by arg name (exclude `file` arg, if applicable)

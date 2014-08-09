@@ -10,7 +10,7 @@ conversion_status(doc, ...)
   \item{...}{Other arguments passed to HTTP request functions.}
 }
 \details{After \code{\link{doc_upload}}, Scribd converts the document to a standard web-viewable format. This can be used to check whether that conversion was successfull. The \code{wait} argument to \code{doc_upload} enables a call to this function.}
-%\value{}
+\value{A character string containing the conversion status. One of \dQuote{DISPLAYABLE}, \dQuote{DONE}, \dQuote{ERROR}, or \dQuote{PROCESSING}.}
 \references{
 \href{http://www.scribd.com/developers/platform/api/docs_getconversionstatus}{API Reference: getConversionStatus}
 }

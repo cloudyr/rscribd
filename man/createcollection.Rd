@@ -33,4 +33,15 @@ coll_delete(id, ...)
 
 \code{\link{coll_add}}, \code{\link{coll_remove}}
 }
-%\examples{}
+\examples{
+\dontrun{
+# create
+mycoll <- coll_create("Rscribd Collection", "A simple example collection")
+
+# update
+coll_update(mycoll, access = "private")
+
+# delete
+coll_delete(mycoll)
+}
+}
