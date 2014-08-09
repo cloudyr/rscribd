@@ -1,7 +1,26 @@
+docs_list <-
+function(limit = 20,
+         offset = 0,
+         ...
+){
+    a <- list()
+    if(!is.null(limit)) {
+        stopifnot(limit <= 1000)
+        a$limit <- limit
+    }
+    if(!is.null(offset)) {
+        stopifnot(offset <= 1000)
+        a$offset <- offset
+    }
+    scribd_query(method = "docs.getList", 
+                 args = a,
+                 ...)
+}
+
 docs_search <- 
 function(query,
          category = NULL,
-         language = NULL, # ISO 639-1 format
+         language = NULL,
          simple = TRUE,
          limit = 10,
          offset = 0,

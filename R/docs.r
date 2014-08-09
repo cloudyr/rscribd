@@ -1,18 +1,3 @@
-doc_list <-
-function(limit = NULL,
-         offset = NULL,
-         ...
-){
-    a <- list()
-    if(!is.null(limit))
-        a$limit <- limit
-    if(!is.null(offset))
-        a$offset <- offset
-    scribd_query(method = "docs.getList", 
-                 args = a,
-                 ...)
-}
-
 doc <- 
 function(doc, 
          fmt = "original",

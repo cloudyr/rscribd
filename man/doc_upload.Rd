@@ -1,5 +1,6 @@
 \name{doc_upload}
 \alias{doc_upload}
+\alias{upload_thumbnail}
 \title{Upload document}
 \description{Upload document to Scribd}
 \usage{

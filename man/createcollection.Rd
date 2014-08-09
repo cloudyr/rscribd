@@ -1,6 +1,7 @@
 \name{createcollection}
 \alias{coll_create}
 \alias{coll_update}
+\alias{coll_delete}
 \title{Create/update/delete collection}
 \description{Create, update details of, or delete a collection}
 \usage{
@@ -17,7 +18,7 @@ coll_delete(id, ...)
   \item{access}{An access level for the collection; one of \dQuote{public} (the default) or \dQuote{private}. This is optional for \code{coll_update}.}
   \item{...}{Other arguments passed to HTTP request functions.}
 }
-\details{These functions create a collection or update the details of an already created collection.}
+\details{These functions create a collection or update the details of an already created collection, or to delete a collection. To add or remove documents to/from a collection, use \code{\link{coll_add}} and \code{\link{coll_remove}}, respectively. To delete a document entirely, use \code{\link{doc_delete}}.}
 %\value{}
 \references{
 \href{http://www.scribd.com/developers/platform/api/collections_create}{API Reference: create}

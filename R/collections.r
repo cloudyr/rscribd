@@ -61,17 +61,45 @@ function(id, ...){
 
 coll_docs <- 
 function(id,
-         limit = NULL,
-         offset = NULL,
+         limit = 20,
+         offset = 0,
          ...
 ){
     a <- list()
-    if(!is.null(limit))
+    if(!is.null(limit)) {
+        stopifnot(limit <= 1000)
         a$limit <- limit
-    if(!is.null(offset))
+    }
+    if(!is.null(offset)) {
+        stopifnot(offset <= 1000)
         a$offset <- offset
+    }
     a$collection_id <- id
     scribd_query(method = "collections.listDocs", 
+                 args = a,
+                 ...)
+}
+
+coll_add <- 
+function(id, 
+         doc, 
+         ...){
+    a <- list()
+    a$collection_id <- id
+    a$doc_id <- doc
+    scribd_query(method = "collections.addDoc", 
+                 args = a,
+                 ...)
+}
+
+coll_remove <- 
+function(id, 
+         doc, 
+         ...){
+    a <- list()
+    a$collection_id <- id
+    a$doc_id <- doc
+    scribd_query(method = "collections.removeDoc", 
                  args = a,
                  ...)
 }
