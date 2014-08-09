@@ -142,12 +142,10 @@ function(doc,
     if(!is.null(disable_related))
         a$disable_related_docs <- as.integer(disable_related)
     
-    out <- 
     scribd_query(method = "docs.changeSettings", 
                  args = a,
                  ...)
-    class(out) <- "scribd_doc"
-    out
+    doc_settings(doc, ...)
 }
 
 doc_delete <- 

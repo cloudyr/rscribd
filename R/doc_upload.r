@@ -55,7 +55,6 @@ function(file = NULL,
         out <-
         scribd_query(method = "docs.uploadFromUrl", 
                      args = a, ...)
-        class(out) <- "scribd_doc"
     } else {
         stop("Must specify `file` or `url`")
     }
@@ -70,6 +69,7 @@ function(file = NULL,
         else if(s == "")
             warning("Document ", out$doc_id, " conversion failed!")
     }
+    class(out) <- "scribd_doc"
     return(out)
 }
 

@@ -94,7 +94,7 @@ function(id,
     scribd_query(method = "collections.listDocs", 
                  args = a,
                  ...)
-    lapply(out$resultset[names(out$resultset) == "result"], 
+    lapply(out$result_set[names(out$result_set) == "result"], 
            `class<-`, "scribd_doc")
 }
 
