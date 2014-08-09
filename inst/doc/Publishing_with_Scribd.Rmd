@@ -1,0 +1,125 @@
+# Publishing with Scribd #
+
+This vignette walks through how to publish documents from R using Scribd.
+
+## Installation ##
+
+You can install **rscribd** from CRAN:
+
+```{r}
+if(!require("rscribd")){
+    install.packages("rscribd")
+    library("rscribd")
+}
+```
+
+A development version of **rscribd** is also available on [GitHub](http://www.github.com/leeper/rscribd), which can be installed using:
+
+```
+library("devtools")
+install_github("leeper/rscribd")
+```
+
+## Setup ##
+
+In order to use **rscribd**, you need to have [a Scribd API key](http://www.scribd.com/developers). This can be passed as the `api_key` argument to all **rscribd** functions. It is also a good idea, from a security perspective, to pass an `api_secret_key` argument, which will mean that API requests are additionally MD5-hashed to prevent unauthorized use of an API key. To sign requests, your API account must be configured in the [Scribd API options](http://www.scribd.com/account-settings/api) to have "Require API Signature" set to "Require signature". We can setup both of these arguments globally using `options`:
+
+```{r}
+load("apikeys.Rdata") # load API keys from `save`d local copy
+options('scribd_api_key' = apikey)
+options('scribd_secret_key' = apisecretkey)
+```
+
+If you are trying to build a public-facing app on top of **rscribd**, you may also want to leverage a user-specific session key returned by `scribd_login`. This allows user-specific operations without requiring users to register an API key. Once a session key is obtained, it can be passed to any **rscribd** function using the `session_key` argument (or have that argument set globally using `options(scribd_session_key)`). The session key is reasonably long lived. If this value is not specified, all operations are performed (by default) on the account associated with the API key.
+
+## Creating a document ##
+
+In this vignette, we'll create a simple [**knitr**](http://yihui.name/knitr/)-based literate programming document, which we will then upload to Scribd. We'll use the `knitr-minimal.Rnw` example file from **knitr**. We can start by `knit`ting the document to PDF:
+
+```{r}
+library("knitr")
+file.copy(system.file("examples/knitr-minimal.Rnw", package = "knitr"),
+          "knitr-minimal.Rnw")
+system('R -e "knitr::knit2pdf(\'knitr-minimal.Rnw\', quiet=TRUE)"')
+doc_output <- "knitr-minimal.pdf"
+```
+
+Then, to upload the document to Scribd, we only need one line of code:
+
+```{r}
+mydoc <- doc_upload(doc_output)
+```
+
+By default, this creates a public-facing Scribd document. It can also be made private using the `access = "private"` argument. Note how the `api_key` and `api_secret_key` are also included by default from the global options we specified above. We can take a look at the response object created by `doc_upload`:
+
+```{r}
+print(mydoc)
+```
+
+The `doc_id` element of the response is what we need to use in order to make any subsequent changes to a document. For example, we can use `doc_settings` to retrieve metadata information about a document:
+
+```{r}
+doc_settings(mydoc$doc_id)
+```
+
+If we want to change any of these settings, we could use `doc_change`:
+
+```{r}
+doc_change(mydoc$doc_id, title = "My first rscribd upload", description = "A knitr/rscribd example")
+```
+
+
+## Results ##
+
+This is what the resulting document looks like in an HTML-embedded Scribd reader:
+
+
+<script type="text/javascript" src='http://www.scribd.com/javascripts/scribd_api.js'></script>
+
+<div id='embedded_doc'><a href='http://www.scribd.com'>Scribd</a></div>
+
+<script type='text/javascript'>
+
+```{r, echo=FALSE, results="asis"}
+# write out the javascript necessary to do a document embed
+cat(paste0("var scribd_doc = scribd.Document.getDoc(",mydoc$doc_id,", '",mydoc$access_key,"');"))
+```
+
+  var onDocReady = function(e){
+  // scribd_doc.api.setPage(3);
+  }
+
+  scribd_doc.addParam('jsapi_version', 2);
+  scribd_doc.addEventListener('docReady', onDocReady);
+  scribd_doc.write('embedded_doc');
+</script>
+
+
+```{r cleanup, echo=FALSE, results="hide"}
+unlink("knitr-minimal*")
+unlink("./figure", recursive=TRUE)
+```
+
+The source code to generate this embed dynamically (for example, in an R vignette like this one or in a Shiny app) is:
+
+```
+<script type="text/javascript" src='http://www.scribd.com/javascripts/scribd_api.js'></script>
+
+<div id='embedded_doc'><a href='http://www.scribd.com'>Scribd</a></div>
+
+<script type='text/javascript'>
+
+    ```r, echo=FALSE, results="asis"
+    # write out the javascript necessary to do a document embed
+    cat(paste0("var scribd_doc = scribd.Document.getDoc(",mydoc$doc_id,", '",mydoc$access_key,"');"))
+    ```
+
+  var onDocReady = function(e){
+  // scribd_doc.api.setPage(3);
+  }
+
+  scribd_doc.addParam('jsapi_version', 2);
+  scribd_doc.addEventListener('docReady', onDocReady);
+  scribd_doc.write('embedded_doc');
+</script>
+```
