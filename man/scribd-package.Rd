@@ -1,4 +1,5 @@
 \name{rscribd-package}
+\alias{rscribd}
 \alias{rscribd-package}
 \docType{package}
 \title{rscribd API Client Package for R}

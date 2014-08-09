@@ -1,6 +1,10 @@
-# Publishing with Scribd #
+<!--
+%\VignetteIndexEntry{Publishing with Scribd}
+-->
 
-This vignette walks through how to publish documents from R using Scribd.
+# Publishing to Scribd from R #
+
+This vignette walks through the basics of how to publish documents from R to [Scribd](http://www.scribd.com/) using **rscribd**.
 
 ## Installation ##
 
@@ -27,7 +31,7 @@ In order to use **rscribd**, you need to have [a Scribd API key](http://www.scri
 ```{r}
 load("apikeys.Rdata") # load API keys from `save`d local copy
 options('scribd_api_key' = apikey)
-options('scribd_secret_key' = apisecretkey)
+options('scribd_secret_key' = secretkey)
 ```
 
 If you are trying to build a public-facing app on top of **rscribd**, you may also want to leverage a user-specific session key returned by `scribd_login`. This allows user-specific operations without requiring users to register an API key. Once a session key is obtained, it can be passed to any **rscribd** function using the `session_key` argument (or have that argument set globally using `options(scribd_session_key)`). The session key is reasonably long lived. If this value is not specified, all operations are performed (by default) on the account associated with the API key.
@@ -38,8 +42,8 @@ In this vignette, we'll create a simple [**knitr**](http://yihui.name/knitr/)-ba
 
 ```{r}
 library("knitr")
-file.copy(system.file("examples/knitr-minimal.Rnw", package = "knitr"),
-          "knitr-minimal.Rnw")
+invisible(file.copy(system.file("examples/knitr-minimal.Rnw", package = "knitr"),
+                    "knitr-minimal.Rnw"))
 system('R -e "knitr::knit2pdf(\'knitr-minimal.Rnw\', quiet=TRUE)"')
 doc_output <- "knitr-minimal.pdf"
 ```

@@ -3,7 +3,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
 
-<title>Publishing with Scribd</title>
+<title>Publishing to Scribd from R</title>
 
 <!-- Styles for R syntax highlighter -->
 <style type="text/css">
@@ -187,9 +187,13 @@ hr {
 </head>
 
 <body>
-<h1>Publishing with Scribd</h1>
+<!--
+%\VignetteIndexEntry{Publishing with Scribd}
+-->
 
-<p>This vignette walks through how to publish documents from R using Scribd.</p>
+<h1>Publishing to Scribd from R</h1>
+
+<p>This vignette walks through the basics of how to publish documents from R to <a href="http://www.scribd.com/">Scribd</a> using <strong>rscribd</strong>.</p>
 
 <h2>Installation</h2>
 
@@ -213,7 +217,7 @@ install_github(&quot;leeper/rscribd&quot;)
 
 <pre><code class="r">load(&quot;apikeys.Rdata&quot;) # load API keys from `save`d local copy
 options(&#39;scribd_api_key&#39; = apikey)
-options(&#39;scribd_secret_key&#39; = apisecretkey)
+options(&#39;scribd_secret_key&#39; = secretkey)
 </code></pre>
 
 <p>If you are trying to build a public-facing app on top of <strong>rscribd</strong>, you may also want to leverage a user-specific session key returned by <code>scribd_login</code>. This allows user-specific operations without requiring users to register an API key. Once a session key is obtained, it can be passed to any <strong>rscribd</strong> function using the <code>session_key</code> argument (or have that argument set globally using <code>options(scribd_session_key)</code>). The session key is reasonably long lived. If this value is not specified, all operations are performed (by default) on the account associated with the API key.</p>
@@ -223,14 +227,9 @@ options(&#39;scribd_secret_key&#39; = apisecretkey)
 <p>In this vignette, we&#39;ll create a simple <a href="http://yihui.name/knitr/"><strong>knitr</strong></a>-based literate programming document, which we will then upload to Scribd. We&#39;ll use the <code>knitr-minimal.Rnw</code> example file from <strong>knitr</strong>. We can start by <code>knit</code>ting the document to PDF:</p>
 
 <pre><code class="r">library(&quot;knitr&quot;)
-file.copy(system.file(&quot;examples/knitr-minimal.Rnw&quot;, package = &quot;knitr&quot;),
-          &quot;knitr-minimal.Rnw&quot;)
-</code></pre>
-
-<pre><code>## [1] TRUE
-</code></pre>
-
-<pre><code class="r">system(&#39;R -e &quot;knitr::knit2pdf(\&#39;knitr-minimal.Rnw\&#39;, quiet=TRUE)&quot;&#39;)
+invisible(file.copy(system.file(&quot;examples/knitr-minimal.Rnw&quot;, package = &quot;knitr&quot;),
+                    &quot;knitr-minimal.Rnw&quot;))
+system(&#39;R -e &quot;knitr::knit2pdf(\&#39;knitr-minimal.Rnw\&#39;, quiet=TRUE)&quot;&#39;)
 doc_output &lt;- &quot;knitr-minimal.pdf&quot;
 </code></pre>
 
@@ -245,10 +244,10 @@ doc_output &lt;- &quot;knitr-minimal.pdf&quot;
 </code></pre>
 
 <pre><code>## $doc_id
-## [1] &quot;236302973&quot;
+## [1] &quot;236305604&quot;
 ## 
 ## $access_key
-## [1] &quot;key-4fBYyspR6lIGtrxfWiix&quot;
+## [1] &quot;key-oiZJ9LyXGy7Yjsaw9WsB&quot;
 ## 
 ## $.attrs
 ## stat 
@@ -264,7 +263,7 @@ doc_output &lt;- &quot;knitr-minimal.pdf&quot;
 ## [1] &quot;0&quot;
 ## 
 ## $doc_id
-## [1] &quot;236302973&quot;
+## [1] &quot;236305604&quot;
 ## 
 ## $title
 ## $title[[1]]
@@ -288,7 +287,7 @@ doc_output &lt;- &quot;knitr-minimal.pdf&quot;
 ## 
 ## 
 ## $access_key
-## [1] &quot;key-4fBYyspR6lIGtrxfWiix&quot;
+## [1] &quot;key-oiZJ9LyXGy7Yjsaw9WsB&quot;
 ## 
 ## $thumbnail_url
 ## $thumbnail_url[[1]]
@@ -342,7 +341,7 @@ doc_output &lt;- &quot;knitr-minimal.pdf&quot;
 
 <script type='text/javascript'>
 
-var scribd_doc = scribd.Document.getDoc(236302973, 'key-4fBYyspR6lIGtrxfWiix');
+var scribd_doc = scribd.Document.getDoc(236305604, 'key-oiZJ9LyXGy7Yjsaw9WsB');
 
   var onDocReady = function(e){
   // scribd_doc.api.setPage(3);
