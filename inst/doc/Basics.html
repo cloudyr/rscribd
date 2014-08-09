@@ -187,10 +187,6 @@ hr {
 </head>
 
 <body>
-<!--
-%\VignetteIndexEntry{Publishing with Scribd}
--->
-
 <h1>Publishing to Scribd from R</h1>
 
 <p>This vignette walks through the basics of how to publish documents from R to <a href="http://www.scribd.com/">Scribd</a> using <strong>rscribd</strong>.</p>
@@ -203,6 +199,9 @@ hr {
     install.packages(&quot;rscribd&quot;)
     library(&quot;rscribd&quot;)
 }
+</code></pre>
+
+<pre><code>## Loading required package: rscribd
 </code></pre>
 
 <p>A development version of <strong>rscribd</strong> is also available on <a href="http://www.github.com/leeper/rscribd">GitHub</a>, which can be installed using:</p>
@@ -243,15 +242,11 @@ doc_output &lt;- &quot;knitr-minimal.pdf&quot;
 <pre><code class="r">print(mydoc)
 </code></pre>
 
-<pre><code>## $doc_id
-## [1] &quot;236305604&quot;
-## 
-## $access_key
-## [1] &quot;key-oiZJ9LyXGy7Yjsaw9WsB&quot;
-## 
-## $.attrs
-## stat 
-## &quot;ok&quot;
+<pre><code>## Document:  236326170 
+## List of 3
+##  $ doc_id    : chr &quot;236326170&quot;
+##  $ access_key: chr &quot;key-YRAq7CggkR9ZY8MPh9gD&quot;
+##  $ .attrs    : Named chr &quot;ok&quot;
 </code></pre>
 
 <p>The <code>doc_id</code> element of the response is what we need to use in order to make any subsequent changes to a document. For example, we can use <code>doc_settings</code> to retrieve metadata information about a document:</p>
@@ -259,67 +254,30 @@ doc_output &lt;- &quot;knitr-minimal.pdf&quot;
 <pre><code class="r">doc_settings(mydoc$doc_id)
 </code></pre>
 
-<pre><code>## $block_count
-## [1] &quot;0&quot;
-## 
-## $doc_id
-## [1] &quot;236305604&quot;
-## 
-## $title
-## $title[[1]]
-## NULL
-## 
-## 
-## $description
-## $description[[1]]
-## NULL
-## 
-## 
-## $access
-## [1] &quot;public&quot;
-## 
-## $license
-## [1] &quot;c&quot;
-## 
-## $tags
-## $tags[[1]]
-## NULL
-## 
-## 
-## $access_key
-## [1] &quot;key-oiZJ9LyXGy7Yjsaw9WsB&quot;
-## 
-## $thumbnail_url
-## $thumbnail_url[[1]]
-## NULL
-## 
-## 
-## $page_count
-## [1] &quot;0&quot;
-## 
-## $download_formats
-## [1] &quot;pdf,text,original&quot;
-## 
-## $category_id
-## NULL
-## 
-## $disable_select_text
-## [1] &quot;false&quot;
-## 
-## $uploaded_by
-## $uploaded_by[[1]]
-## NULL
-## 
-## 
-## $uploader_id
-## [1] &quot;260752990&quot;
-## 
-## $reads
-## [1] &quot;0&quot;
-## 
-## $.attrs
-## stat 
-## &quot;ok&quot;
+<pre><code>## Document:  236326170 
+## List of 17
+##  $ block_count        : chr &quot;0&quot;
+##  $ doc_id             : chr &quot;236326170&quot;
+##  $ title              :List of 1
+##   ..$ : NULL
+##  $ description        :List of 1
+##   ..$ : NULL
+##  $ access             : chr &quot;public&quot;
+##  $ license            : chr &quot;c&quot;
+##  $ tags               :List of 1
+##   ..$ : NULL
+##  $ access_key         : chr &quot;key-YRAq7CggkR9ZY8MPh9gD&quot;
+##  $ thumbnail_url      :List of 1
+##   ..$ : NULL
+##  $ page_count         : chr &quot;0&quot;
+##  $ download_formats   : chr &quot;pdf,text,original&quot;
+##  $ category_id        : NULL
+##  $ disable_select_text: chr &quot;false&quot;
+##  $ uploaded_by        :List of 1
+##   ..$ : NULL
+##  $ uploader_id        : chr &quot;260752990&quot;
+##  $ reads              : chr &quot;0&quot;
+##  $ .attrs             : Named chr &quot;ok&quot;
 </code></pre>
 
 <p>If we want to change any of these settings, we could use <code>doc_change</code>:</p>
@@ -327,13 +285,95 @@ doc_output &lt;- &quot;knitr-minimal.pdf&quot;
 <pre><code class="r">doc_change(mydoc$doc_id, title = &quot;My first rscribd upload&quot;, description = &quot;A knitr/rscribd example&quot;)
 </code></pre>
 
+<pre><code>## Document:  236326170 
+## List of 17
+##  $ block_count        : chr &quot;0&quot;
+##  $ doc_id             : chr &quot;236326170&quot;
+##  $ title              :List of 1
+##   ..$ : NULL
+##  $ description        :List of 1
+##   ..$ : NULL
+##  $ access             : chr &quot;public&quot;
+##  $ license            : chr &quot;c&quot;
+##  $ tags               :List of 1
+##   ..$ : NULL
+##  $ access_key         : chr &quot;key-YRAq7CggkR9ZY8MPh9gD&quot;
+##  $ thumbnail_url      :List of 1
+##   ..$ : NULL
+##  $ page_count         : chr &quot;0&quot;
+##  $ download_formats   : chr &quot;pdf,text,original&quot;
+##  $ category_id        : NULL
+##  $ disable_select_text: chr &quot;false&quot;
+##  $ uploaded_by        :List of 1
+##   ..$ : NULL
+##  $ uploader_id        : chr &quot;260752990&quot;
+##  $ reads              : chr &quot;0&quot;
+##  $ .attrs             : Named chr &quot;ok&quot;
+</code></pre>
+
+<p>One could also upload revisions a revision of a document using <code>doc_upload</code> with the <code>doc</code> argument specified, like this:</p>
+
+<pre><code>doc_upload(doc_output, doc = mydoc)
+</code></pre>
+
+<p>This maintains the Scribd <code>document_id</code> and metadata but replaces the physical document. Using <code>doc_change</code> to update the <code>edition</code> metadata setting for the document additionally enables versioning of the document.</p>
+
+<h2>Collections</h2>
+
+<p>If you upload multiple documents and wish to organize them, you can use Scribd collections to put like documents together. (You can also tag and categorize documents using <code>doc_change</code>, perhaps to make them easier for others to find.) A collection is simply a named container for one or more documents. </p>
+
+<p>To create a collection, use <code>coll_create</code>:</p>
+
+<pre><code class="r">mycoll &lt;- coll_create(&quot;rscribd documents&quot;, &quot;Collection of rscribd documents&quot;)
+</code></pre>
+
+<p>You can use <code>coll_update</code> to modify the title, description, or public access status for a collection after it is created. <code>coll_add</code> to add a document to a collection and <code>coll_docs</code> will list the documents stored in a collection:</p>
+
+<pre><code class="r">coll_add(mycoll, mydoc)
+</code></pre>
+
 <pre><code>## stat 
 ## &quot;ok&quot;
 </code></pre>
 
-<h2>Results</h2>
+<pre><code class="r">coll_docs(mycoll)
+</code></pre>
 
-<p>This is what the resulting document looks like in an HTML-embedded Scribd reader:</p>
+<pre><code>## $result
+## Document:  236326170 
+## List of 16
+##  $ doc_id          : chr &quot;236326170&quot;
+##  $ access_key      : chr &quot;key-YRAq7CggkR9ZY8MPh9gD&quot;
+##  $ title           :List of 1
+##   ..$ : NULL
+##  $ description     :List of 1
+##   ..$ : NULL
+##  $ tags            :List of 1
+##   ..$ : NULL
+##  $ license         : chr &quot;c&quot;
+##  $ thumbnail_url   : chr &quot;http://imgv2-3.scribdassets.com/img/word_document/236326170/111x142/ae4d807ec6/1407583187&quot;
+##  $ page_count      : chr &quot;0&quot;
+##  $ download_formats: NULL
+##  $ reads           : chr &quot;0&quot;
+##  $ uploaded_by     :List of 1
+##   ..$ : NULL
+##  $ uploader_id     : chr &quot;260752990&quot;
+##  $ when_uploaded   : chr &quot;2014-08-09T11:19:46Z&quot;
+##  $ when_updated    : chr &quot;2014-08-09T11:19:47Z&quot;
+##  $ block_count     : chr &quot;0&quot;
+##  $ authors         : NULL
+</code></pre>
+
+<p>Removing a document from a collection works similarly to <code>coll_add</code>:</p>
+
+<pre><code class="r">coll_remove(mycoll, mydoc)
+</code></pre>
+
+<p>To delete a collection entirely, you can simply call: <code>coll_delete(mycoll)</code>.</p>
+
+<h2>Embedding Scribd documents</h2>
+
+<p>Once uploaded to Scribd, this is what our knitr document looks like in a simple HTML-embedded reader:</p>
 
 <script type="text/javascript" src='http://www.scribd.com/javascripts/scribd_api.js'></script>
 
@@ -341,7 +381,7 @@ doc_output &lt;- &quot;knitr-minimal.pdf&quot;
 
 <script type='text/javascript'>
 
-var scribd_doc = scribd.Document.getDoc(236305604, 'key-oiZJ9LyXGy7Yjsaw9WsB');
+var scribd_doc = scribd.Document.getDoc(236326170, 'key-YRAq7CggkR9ZY8MPh9gD');
 
   var onDocReady = function(e){
   // scribd_doc.api.setPage(3);
@@ -352,7 +392,7 @@ var scribd_doc = scribd.Document.getDoc(236305604, 'key-oiZJ9LyXGy7Yjsaw9WsB');
   scribd_doc.write('embedded_doc');
 </script>
 
-<p>The source code to generate this embed dynamically (for example, in an R vignette like this one or in a Shiny app) is:</p>
+<p>The source code to generate the above embed dynamically (for example, in an R vignette like this one or in a Shiny app) is:</p>
 
 <pre><code>&lt;script type=&quot;text/javascript&quot; src=&#39;http://www.scribd.com/javascripts/scribd_api.js&#39;&gt;&lt;/script&gt;
 

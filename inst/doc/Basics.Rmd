@@ -1,7 +1,3 @@
-<!--
-%\VignetteIndexEntry{Publishing with Scribd}
--->
-
 # Publishing to Scribd from R #
 
 This vignette walks through the basics of how to publish documents from R to [Scribd](http://www.scribd.com/) using **rscribd**.
@@ -72,11 +68,43 @@ If we want to change any of these settings, we could use `doc_change`:
 doc_change(mydoc$doc_id, title = "My first rscribd upload", description = "A knitr/rscribd example")
 ```
 
+One could also upload revisions a revision of a document using `doc_upload` with the `doc` argument specified, like this:
 
-## Results ##
+```
+doc_upload(doc_output, doc = mydoc)
+```
 
-This is what the resulting document looks like in an HTML-embedded Scribd reader:
+This maintains the Scribd `document_id` and metadata but replaces the physical document. Using `doc_change` to update the `edition` metadata setting for the document additionally enables versioning of the document.
 
+## Collections ##
+
+If you upload multiple documents and wish to organize them, you can use Scribd collections to put like documents together. (You can also tag and categorize documents using `doc_change`, perhaps to make them easier for others to find.) A collection is simply a named container for one or more documents. 
+
+To create a collection, use `coll_create`:
+
+```{r}
+mycoll <- coll_create("rscribd documents", "Collection of rscribd documents")
+```
+
+You can use `coll_update` to modify the title, description, or public access status for a collection after it is created. `coll_add` to add a document to a collection and `coll_docs` will list the documents stored in a collection:
+
+```{r}
+coll_add(mycoll, mydoc)
+coll_docs(mycoll)
+```
+
+Removing a document from a collection works similarly to `coll_add`:
+
+```{r, eval = FALSE}
+coll_remove(mycoll, mydoc)
+```
+
+To delete a collection entirely, you can simply call: `coll_delete(mycoll)`.
+
+
+## Embedding Scribd documents ##
+
+Once uploaded to Scribd, this is what our knitr document looks like in a simple HTML-embedded reader:
 
 <script type="text/javascript" src='http://www.scribd.com/javascripts/scribd_api.js'></script>
 
@@ -104,7 +132,7 @@ unlink("knitr-minimal*")
 unlink("./figure", recursive=TRUE)
 ```
 
-The source code to generate this embed dynamically (for example, in an R vignette like this one or in a Shiny app) is:
+The source code to generate the above embed dynamically (for example, in an R vignette like this one or in a Shiny app) is:
 
 ```
 <script type="text/javascript" src='http://www.scribd.com/javascripts/scribd_api.js'></script>
