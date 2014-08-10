@@ -189,7 +189,13 @@ hr {
 <body>
 <h1>Publishing to Scribd from R</h1>
 
-<p>This vignette walks through the basics of how to publish documents from R to <a href="http://www.scribd.com/">Scribd</a> using <strong>rscribd</strong>.</p>
+<p>This vignette walks through the basics of how to publish documents from R to <a href="http://www.scribd.com/">Scribd</a> using <strong>rscribd</strong>. Scribd is self-described as <a href="http://www.scribd.com/about">&ldquo;the world’s largest collection of e-books and written works&rdquo;</a>, consisting of premium, publisher-supplied content as well as &ldquo;millions&rdquo; of user-uploaded documents.</p>
+
+<h2>About <em>rscribd</em></h2>
+
+<p><strong>rscribd</strong> enables useRs to upload documents directly to Scribd, making them either publicly viewable or using Scribd as a personal library of private digital content. Scribd allows users to organize content into public or private &ldquo;collections,&rdquo; tag documents to make them easily searchable by others, and supports all standard content licenses (full copyright, public domain, and all <a href="https://creativecommons.org/licenses/">Creative Commons</a> licenses) in addition to providing features for publishing paid and <a href="http://en.wikipedia.org/wiki/Digital_rights_management">DRM</a>-protected content.</p>
+
+<p>The tutorial below demonstrates how to upload a document as part of a <a href="http://yihui.name/knitr/"><strong>knitr</strong></a> reproducible document workflow, but possible use cases are numerous. Scribd and <strong>rscribd</strong> allow users to upload documents stored locally as well as on a remote server and the service can import files in <a href="http://www.scribd.com/developers/platform/api/docs_upload">a wide variety of formats</a>. (Note, however, that image formats are not allowed (to store images online, consider using the <a href="http://cran.r-project.org/web/packages/imguR/index.html"><strong>imguR</strong></a> package.)</p>
 
 <h2>Installation</h2>
 
@@ -201,9 +207,12 @@ hr {
 }
 </code></pre>
 
+<pre><code>## Loading required package: rscribd
+</code></pre>
+
 <p>A development version of <strong>rscribd</strong> is also available on <a href="http://www.github.com/leeper/rscribd">GitHub</a>, which can be installed using:</p>
 
-<pre><code>library(&quot;devtools&quot;)
+<pre><code class="r">library(&quot;devtools&quot;)
 install_github(&quot;leeper/rscribd&quot;)
 </code></pre>
 
@@ -218,14 +227,16 @@ options(&#39;scribd_secret_key&#39; = secretkey)
 
 <p>If you are trying to build a public-facing app on top of <strong>rscribd</strong>, you may also want to leverage a user-specific session key returned by <code>scribd_login</code>. This allows user-specific operations without requiring users to register an API key. Once a session key is obtained, it can be passed to any <strong>rscribd</strong> function using the <code>session_key</code> argument (or have that argument set globally using <code>options(scribd_session_key)</code>). The session key is reasonably long lived. If this value is not specified, all operations are performed (by default) on the account associated with the API key.</p>
 
+<p>The Scribd API also supports a <code>my_user_id</code> argument, which associates a particular API request with a &ldquo;phantom&rdquo; user account within an application. In other words, if you want to use a single API account for multiple users (perhaps because you are integrating <strong>rscribd</strong> into another user-facing application, such as a <a href="http://shiny.rstudio.com/">Shiny app</a>) you can affiliate particular API requests (and thus particular documents or collections) with multiple distinct users without creating an API key for each user. You can read more about this type of authentication <a href="http://www.scribd.com/developers/platform#authentication">in the Scribd API documentation</a>.</p>
+
 <h2>Creating a document</h2>
 
-<p>In this vignette, we&#39;ll create a simple <a href="http://yihui.name/knitr/"><strong>knitr</strong></a>-based literate programming document, which we will then upload to Scribd. We&#39;ll use the <code>knitr-minimal.Rnw</code> example file from <strong>knitr</strong>. We can start by <code>knit</code>ting the document to PDF:</p>
+<p>To demonstrate a basic document upload, we will create a simple <a href="http://yihui.name/knitr/"><strong>knitr</strong></a>-based literate programming document, which we will then send to Scribd. We&#39;ll use the <code>knitr-minimal.Rnw</code> example file from <strong>knitr</strong>. We can start by <code>knit</code>ting the document to PDF:</p>
 
 <pre><code class="r">library(&quot;knitr&quot;)
 invisible(file.copy(system.file(&quot;examples/knitr-minimal.Rnw&quot;, package = &quot;knitr&quot;),
                     &quot;knitr-minimal.Rnw&quot;))
-system(&#39;R -e &quot;knitr::knit2pdf(\&#39;knitr-minimal.Rnw\&#39;, quiet=TRUE)&quot;&#39;)
+system(&#39;Rscript -e &quot;knitr::knit2pdf(\&#39;knitr-minimal.Rnw\&#39;, quiet=TRUE)&quot;&#39;)
 doc_output &lt;- &quot;knitr-minimal.pdf&quot;
 </code></pre>
 
@@ -234,27 +245,31 @@ doc_output &lt;- &quot;knitr-minimal.pdf&quot;
 <pre><code class="r">mydoc &lt;- doc_upload(doc_output)
 </code></pre>
 
-<p>By default, this creates a public-facing Scribd document. It can also be made private using the <code>access = &quot;private&quot;</code> argument. Note how the <code>api_key</code> and <code>api_secret_key</code> are also included by default from the global options we specified above. We can take a look at the response object created by <code>doc_upload</code>:</p>
+<pre><code>## Error: specified file does not exist: knitr-minimal.pdf.  You must specify
+## a valid file name or provide the contents to send.
+</code></pre>
+
+<p>By default, this creates a public-facing Scribd document. It can also be made private using the <code>access = &quot;private&quot;</code> argument to <code>doc_upload</code>. Note how the <code>api_key</code> and <code>api_secret_key</code> are also included by default from the global options we specified above. We can take a look at the response object created by <code>doc_upload</code>:</p>
 
 <pre><code class="r">print(mydoc)
 </code></pre>
 
-<pre><code>## Document:  236332715 
+<pre><code>## Document:  236406573 
 ## List of 3
-##  $ doc_id    : chr &quot;236332715&quot;
-##  $ access_key: chr &quot;key-gu9eSEe8eyFij9vaPTLJ&quot;
+##  $ doc_id    : chr &quot;236406573&quot;
+##  $ access_key: chr &quot;key-M1N73gKdPOT62eC7lB4H&quot;
 ##  $ .attrs    : Named chr &quot;ok&quot;
 </code></pre>
 
-<p>The <code>doc_id</code> element of the response is what we need to use in order to make any subsequent changes to a document. For example, we can use <code>doc_settings</code> to retrieve metadata information about a document:</p>
+<p>This provides basic details about the document, most important among them the <code>doc_id</code> that we can use to refer to our document in other function calls. For example, we can use <code>doc_settings</code> to retrieve metadata information about a document:</p>
 
 <pre><code class="r">doc_settings(mydoc$doc_id)
 </code></pre>
 
-<pre><code>## Document:  236332715 
+<pre><code>## Document:  236406573 
 ## List of 17
 ##  $ block_count        : chr &quot;0&quot;
-##  $ doc_id             : chr &quot;236332715&quot;
+##  $ doc_id             : chr &quot;236406573&quot;
 ##  $ title              :List of 1
 ##   ..$ : NULL
 ##  $ description        :List of 1
@@ -263,10 +278,10 @@ doc_output &lt;- &quot;knitr-minimal.pdf&quot;
 ##  $ license            : chr &quot;c&quot;
 ##  $ tags               :List of 1
 ##   ..$ : NULL
-##  $ access_key         : chr &quot;key-gu9eSEe8eyFij9vaPTLJ&quot;
+##  $ access_key         : chr &quot;key-M1N73gKdPOT62eC7lB4H&quot;
 ##  $ thumbnail_url      :List of 1
 ##   ..$ : NULL
-##  $ page_count         : chr &quot;0&quot;
+##  $ page_count         : chr &quot;1&quot;
 ##  $ download_formats   : chr &quot;pdf,text,original&quot;
 ##  $ category_id        : NULL
 ##  $ disable_select_text: chr &quot;false&quot;
@@ -282,10 +297,10 @@ doc_output &lt;- &quot;knitr-minimal.pdf&quot;
 <pre><code class="r">doc_change(mydoc$doc_id, title = &quot;My first rscribd upload&quot;, description = &quot;A knitr/rscribd example&quot;)
 </code></pre>
 
-<pre><code>## Document:  236332715 
+<pre><code>## Document:  236406573 
 ## List of 17
 ##  $ block_count        : chr &quot;0&quot;
-##  $ doc_id             : chr &quot;236332715&quot;
+##  $ doc_id             : chr &quot;236406573&quot;
 ##  $ title              :List of 1
 ##   ..$ : NULL
 ##  $ description        :List of 1
@@ -294,10 +309,10 @@ doc_output &lt;- &quot;knitr-minimal.pdf&quot;
 ##  $ license            : chr &quot;c&quot;
 ##  $ tags               :List of 1
 ##   ..$ : NULL
-##  $ access_key         : chr &quot;key-gu9eSEe8eyFij9vaPTLJ&quot;
+##  $ access_key         : chr &quot;key-M1N73gKdPOT62eC7lB4H&quot;
 ##  $ thumbnail_url      :List of 1
 ##   ..$ : NULL
-##  $ page_count         : chr &quot;0&quot;
+##  $ page_count         : chr &quot;1&quot;
 ##  $ download_formats   : chr &quot;pdf,text,original&quot;
 ##  $ category_id        : NULL
 ##  $ disable_select_text: chr &quot;false&quot;
@@ -308,9 +323,9 @@ doc_output &lt;- &quot;knitr-minimal.pdf&quot;
 ##  $ .attrs             : Named chr &quot;ok&quot;
 </code></pre>
 
-<p>One could also upload revisions a revision of a document using <code>doc_upload</code> with the <code>doc</code> argument specified, like this:</p>
+<p>One could also upload a revision of a document using <code>doc_upload</code> with the <code>doc</code> argument specified, like this:</p>
 
-<pre><code>doc_upload(doc_output, doc = mydoc)
+<pre><code class="r">doc_upload(doc_output, doc = mydoc)
 </code></pre>
 
 <p>This maintains the Scribd <code>document_id</code> and metadata but replaces the physical document. Using <code>doc_change</code> to update the <code>edition</code> metadata setting for the document additionally enables versioning of the document.</p>
@@ -337,10 +352,10 @@ doc_output &lt;- &quot;knitr-minimal.pdf&quot;
 </code></pre>
 
 <pre><code>## $result
-## Document:  236332715 
+## Document:  236406573 
 ## List of 16
-##  $ doc_id          : chr &quot;236332715&quot;
-##  $ access_key      : chr &quot;key-gu9eSEe8eyFij9vaPTLJ&quot;
+##  $ doc_id          : chr &quot;236406573&quot;
+##  $ access_key      : chr &quot;key-M1N73gKdPOT62eC7lB4H&quot;
 ##  $ title           :List of 1
 ##   ..$ : NULL
 ##  $ description     :List of 1
@@ -348,15 +363,15 @@ doc_output &lt;- &quot;knitr-minimal.pdf&quot;
 ##  $ tags            :List of 1
 ##   ..$ : NULL
 ##  $ license         : chr &quot;c&quot;
-##  $ thumbnail_url   : chr &quot;http://imgv2-2.scribdassets.com/img/word_document/236332715/111x142/22cc96568d/1407586933&quot;
-##  $ page_count      : chr &quot;0&quot;
-##  $ download_formats: NULL
+##  $ thumbnail_url   : chr &quot;http://imgv2-4.scribdassets.com/img/word_document/236406573/111x142/480a1cb37d/1407667413&quot;
+##  $ page_count      : chr &quot;1&quot;
+##  $ download_formats: chr &quot;pdf,txt&quot;
 ##  $ reads           : chr &quot;0&quot;
 ##  $ uploaded_by     :List of 1
 ##   ..$ : NULL
 ##  $ uploader_id     : chr &quot;260752990&quot;
-##  $ when_uploaded   : chr &quot;2014-08-09T12:22:13Z&quot;
-##  $ when_updated    : chr &quot;2014-08-09T12:22:13Z&quot;
+##  $ when_uploaded   : chr &quot;2014-08-10T10:42:30Z&quot;
+##  $ when_updated    : chr &quot;2014-08-10T10:42:40Z&quot;
 ##  $ block_count     : chr &quot;0&quot;
 ##  $ authors         : NULL
 </code></pre>
@@ -380,7 +395,7 @@ doc_output &lt;- &quot;knitr-minimal.pdf&quot;
 <div id="embedded_doc"><a href="http://www.scribd.com">Scribd</a></div>
 
 <script type="text/javascript">
-var scribd_doc = scribd.Document.getDoc(236332715, 'key-gu9eSEe8eyFij9vaPTLJ');
+var scribd_doc = scribd.Document.getDoc(236406573, 'key-M1N73gKdPOT62eC7lB4H');
 
 scribd_doc.addParam("jsapi_version", 2);
 

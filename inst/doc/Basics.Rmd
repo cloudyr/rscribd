@@ -1,12 +1,18 @@
 # Publishing to Scribd from R #
 
-This vignette walks through the basics of how to publish documents from R to [Scribd](http://www.scribd.com/) using **rscribd**.
+This vignette walks through the basics of how to publish documents from R to [Scribd](http://www.scribd.com/) using **rscribd**. Scribd is self-described as ["the world’s largest collection of e-books and written works"](http://www.scribd.com/about), consisting of premium, publisher-supplied content as well as "millions" of user-uploaded documents.
+
+## About *rscribd* ##
+
+**rscribd** enables useRs to upload documents directly to Scribd, making them either publicly viewable or using Scribd as a personal library of private digital content. Scribd allows users to organize content into public or private "collections," tag documents to make them easily searchable by others, and supports all standard content licenses (full copyright, public domain, and all [Creative Commons](https://creativecommons.org/licenses/) licenses) in addition to providing features for publishing paid and [DRM](http://en.wikipedia.org/wiki/Digital_rights_management)-protected content.
+
+The tutorial below demonstrates how to upload a document as part of a [**knitr**](http://yihui.name/knitr/) reproducible document workflow, but possible use cases are numerous. Scribd and **rscribd** allow users to upload documents stored locally as well as on a remote server and the service can import files in [a wide variety of formats](http://www.scribd.com/developers/platform/api/docs_upload). (Note, however, that image formats are not allowed (to store images online, consider using the [**imguR**](http://cran.r-project.org/web/packages/imguR/index.html) package.)
 
 ## Installation ##
 
 You can install **rscribd** from CRAN:
 
-```{r}
+```{r load, cache=TRUE}
 if(!require("rscribd")){
     install.packages("rscribd")
     library("rscribd")
@@ -15,7 +21,7 @@ if(!require("rscribd")){
 
 A development version of **rscribd** is also available on [GitHub](http://www.github.com/leeper/rscribd), which can be installed using:
 
-```
+```{r github, eval=FALSE}
 library("devtools")
 install_github("leeper/rscribd")
 ```
@@ -24,7 +30,7 @@ install_github("leeper/rscribd")
 
 In order to use **rscribd**, you need to have [a Scribd API key](http://www.scribd.com/developers). This can be passed as the `api_key` argument to all **rscribd** functions. It is also a good idea, from a security perspective, to pass an `api_secret_key` argument, which will mean that API requests are additionally MD5-hashed to prevent unauthorized use of an API key. To sign requests, your API account must be configured in the [Scribd API options](http://www.scribd.com/account-settings/api) to have "Require API Signature" set to "Require signature". We can setup both of these arguments globally using `options`:
 
-```{r}
+```{r keys, cache=TRUE, dependson=c("load")}
 load("apikeys.Rdata") # load API keys from `save`d local copy
 options('scribd_api_key' = apikey)
 options('scribd_secret_key' = secretkey)
@@ -32,45 +38,47 @@ options('scribd_secret_key' = secretkey)
 
 If you are trying to build a public-facing app on top of **rscribd**, you may also want to leverage a user-specific session key returned by `scribd_login`. This allows user-specific operations without requiring users to register an API key. Once a session key is obtained, it can be passed to any **rscribd** function using the `session_key` argument (or have that argument set globally using `options(scribd_session_key)`). The session key is reasonably long lived. If this value is not specified, all operations are performed (by default) on the account associated with the API key.
 
+The Scribd API also supports a `my_user_id` argument, which associates a particular API request with a "phantom" user account within an application. In other words, if you want to use a single API account for multiple users (perhaps because you are integrating **rscribd** into another user-facing application, such as a [Shiny app](http://shiny.rstudio.com/)) you can affiliate particular API requests (and thus particular documents or collections) with multiple distinct users without creating an API key for each user. You can read more about this type of authentication [in the Scribd API documentation](http://www.scribd.com/developers/platform#authentication).
+
 ## Creating a document ##
 
-In this vignette, we'll create a simple [**knitr**](http://yihui.name/knitr/)-based literate programming document, which we will then upload to Scribd. We'll use the `knitr-minimal.Rnw` example file from **knitr**. We can start by `knit`ting the document to PDF:
+To demonstrate a basic document upload, we will create a simple [**knitr**](http://yihui.name/knitr/)-based literate programming document, which we will then send to Scribd. We'll use the `knitr-minimal.Rnw` example file from **knitr**. We can start by `knit`ting the document to PDF:
 
-```{r}
+```{r knit, cache=TRUE, dependson=c("load","keys")}
 library("knitr")
 invisible(file.copy(system.file("examples/knitr-minimal.Rnw", package = "knitr"),
                     "knitr-minimal.Rnw"))
-system('R -e "knitr::knit2pdf(\'knitr-minimal.Rnw\', quiet=TRUE)"')
+system('Rscript -e "knitr::knit2pdf(\'knitr-minimal.Rnw\', quiet=TRUE)"')
 doc_output <- "knitr-minimal.pdf"
 ```
 
 Then, to upload the document to Scribd, we only need one line of code:
 
-```{r}
+```{r upload, cache=TRUE, dependson="knit"}
 mydoc <- doc_upload(doc_output)
 ```
 
-By default, this creates a public-facing Scribd document. It can also be made private using the `access = "private"` argument. Note how the `api_key` and `api_secret_key` are also included by default from the global options we specified above. We can take a look at the response object created by `doc_upload`:
+By default, this creates a public-facing Scribd document. It can also be made private using the `access = "private"` argument to `doc_upload`. Note how the `api_key` and `api_secret_key` are also included by default from the global options we specified above. We can take a look at the response object created by `doc_upload`:
 
-```{r}
+```{r view, cache=TRUE, dependson="upload"}
 print(mydoc)
 ```
 
-The `doc_id` element of the response is what we need to use in order to make any subsequent changes to a document. For example, we can use `doc_settings` to retrieve metadata information about a document:
+This provides basic details about the document, most important among them the `doc_id` that we can use to refer to our document in other function calls. For example, we can use `doc_settings` to retrieve metadata information about a document:
 
-```{r}
+```{r settings, cache=TRUE, dependson="knit"}
 doc_settings(mydoc$doc_id)
 ```
 
 If we want to change any of these settings, we could use `doc_change`:
 
-```{r}
+```{r change, cache=TRUE, dependson="knit"}
 doc_change(mydoc$doc_id, title = "My first rscribd upload", description = "A knitr/rscribd example")
 ```
 
-One could also upload revisions a revision of a document using `doc_upload` with the `doc` argument specified, like this:
+One could also upload a revision of a document using `doc_upload` with the `doc` argument specified, like this:
 
-```
+```{r, eval = FALSE}
 doc_upload(doc_output, doc = mydoc)
 ```
 
@@ -82,20 +90,20 @@ If you upload multiple documents and wish to organize them, you can use Scribd c
 
 To create a collection, use `coll_create`:
 
-```{r}
+```{r collection, cache=TRUE}
 mycoll <- coll_create("rscribd documents", "Collection of rscribd documents")
 ```
 
 You can use `coll_update` to modify the title, description, or public access status for a collection after it is created. `coll_add` to add a document to a collection and `coll_docs` will list the documents stored in a collection:
 
-```{r}
+```{r add, cache=TRUE, dependson=c("knit","collection")}
 coll_add(mycoll, mydoc)
 coll_docs(mycoll)
 ```
 
 Removing a document from a collection works similarly to `coll_add`:
 
-```{r, eval = FALSE}
+```{r, eval = FALSE, cache=TRUE}
 coll_remove(mycoll, mydoc)
 ```
 
@@ -106,12 +114,12 @@ To delete a collection entirely, you can simply call: `coll_delete(mycoll)`.
 
 Once uploaded to Scribd, it is possible to embed the document in an HTML page:
 
-```{r, results="asis"}
+```{r embed, results="asis", cache=TRUE, dependson="knit"}
 cat(doc_embed(mydoc))
 ```
 
 
-```{r cleanup, echo=FALSE, results="hide"}
+```{r cleanup, echo=FALSE, results="hide", cache=TRUE, dependson="knit"}
 unlink("knitr-minimal*")
 unlink("./figure", recursive=TRUE)
 ```
