@@ -10,6 +10,8 @@ Thomas J. Leeper
 Maintainer: Thomas J. Leeper <thosjleeper@gmail.com>
 }
 \references{
+\href{../doc/Basics.html}{Vignette: rscribd Basics}
+
 \href{http://www.scribd.com/}{Scribd}
 
 \href{http://www.scribd.com/developers}{API Documentation}
