@@ -1,40 +1,14 @@
 # rscribd Package #
 
-**rscribd** allows users to publish and retrieve documents from the [Scribd](http://www.scribd.com/) publishing platform.
-
-## Requirements and Installation ##
-
-[![Build Status](https://travis-ci.org/leeper/rscribd.png?branch=master)](https://travis-ci.org/leeper/rscribd)
-
-**rscribd** will eventually be available on [CRAN](http://cran.r-project.org/web/packages/rscribd/index.html), so that it can be installed using:
-
-```
-install.packages('rscribd')
-```
-
-The development version can be installed directly from GitHub using `devtools`:
-
-```
-if(!require('devtools')) {
-    install.packages('devtools')
-    library('devtools')
-}
-install_github('leeper/rscribd')
-```
-
-## Example Usage ##
-
-Below are some simple code examples demonstrating package functionality.
-
-[Usage limits](http://www.scribd.com/developers/platform#limits) for the API are very generous and it is highly unlikely you will reach them.
+**rscribd** allows users to publish and retrieve documents from the [Scribd](http://www.scribd.com/) publishing platform. Below are some simple code examples demonstrating package functionality. Note: [Usage limits](http://www.scribd.com/developers/platform#limits) for the API are very generous and it is highly unlikely you will reach them.
 
 ### Authentication options ###
 
-The Scribd API has several possible ways to authenticate requests. The simplest involves passing an API key to any **rscribd** function using the `api_key` argument. If this value is not specified, **rscribd** will look for an API key in `options(scribd_api_key)`. If none is provided, any operation will fail.
+The Scribd API has several possible ways to authenticate requests. The simplest involves passing an API key to any **rscribd** function using the `api_key` argument. If this value is not specified, **rscribd** will look for an API key in `Sys.setenv("SCRIBD_API_KEY")`. If none is provided, any operation will fail.
 
-In addition to API key authentication, API requests can be further authenticated via request signing (essentially MD5 hashing), which provides an added layer of security that prevents others from using an exposed API key for unauthorized use. To sign requests, your API account must be configured in the [Scribd API options](http://www.scribd.com/account-settings/api) to have "Require API Signature" set to "Require signature". Then, in addition to the `api_key` argument, all function calls must additionally include the API Secret Key as the `secret_key` argument (or have a secret key set globally with `options(scribd_secret_key)`). All functions will work without a secret key, by defaulting to basic authentication (described above).
+In addition to API key authentication, API requests can be further authenticated via request signing (essentially MD5 hashing), which provides an added layer of security that prevents others from using an exposed API key for unauthorized use. To sign requests, your API account must be configured in the [Scribd API options](http://www.scribd.com/account-settings/api) to have "Require API Signature" set to "Require signature". Then, in addition to the `api_key` argument, all function calls must additionally include the API Secret Key as the `secret_key` argument (or have a secret key set globally with `Sys.setenv("SCRIBD_SECRET_KEY")`). All functions will work without a secret key, by defaulting to basic authentication (described above).
 
-If you are trying to build a public-facing app on top of **rscribd**, you may also want to leverage a user-specific session key returned by `scribd_login`. This allows user-specific operations without requiring users to register an API key. Once a session key is obtained, it can be passed to any **rscribd** function using the `session_key` argument (or have that argument set globally using `options(scribd_session_key)`). The session key is reasonably long lived. If this value is not specified, all operations are performed (by default) on the account associated with the API key.
+If you are trying to build a public-facing app on top of **rscribd**, you may also want to leverage a user-specific session key returned by `scribd_login`. This allows user-specific operations without requiring users to register an API key. Once a session key is obtained, it can be passed to any **rscribd** function using the `session_key` argument (or have that argument set globally using `Sys.setenv("SCRIBD_SESSION_KEY")`). The session key is reasonably long lived. If this value is not specified, all operations are performed (by default) on the account associated with the API key.
 
 ### Uploading documents to Scribd ###
 
@@ -86,3 +60,26 @@ coll_list(mycol)
 ```
 
 `coll_delete` deletes a collection. `doc_delete` deletes a document from Scribd entirely.
+
+## Requirements and Installation ##
+
+[![CRAN Version](http://www.r-pkg.org/badges/version/rscribd)](http://cran.r-project.org/package=rscribd)
+![Downloads](http://cranlogs.r-pkg.org/badges/rscribd)
+[![Travis-CI Build Status](https://travis-ci.org/leeper/rscribd.png?branch=master)](https://travis-ci.org/leeper/rscribd)
+[![codecov.io](http://codecov.io/github/leeper/rscribd/coverage.svg?branch=master)](http://codecov.io/github/leeper/rscribd?branch=master)
+
+**rscribd** is available on [CRAN](http://cran.r-project.org/web/packages/rscribd/index.html), so that it can be installed using:
+
+```
+install.packages('rscribd')
+```
+
+The development version can be installed directly from GitHub using `ghit`:
+
+```
+if(!require('ghit')) {
+    install.packages('ghit')
+}
+ghit::install_github('leeper/rscribd')
+```
+

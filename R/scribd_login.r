@@ -10,7 +10,7 @@ function(username, # or email address
     scribd_query(method = "user.login", 
                  args = a,
                  ...)
-    options('scribd_session_key' = out$session_key)
+    Sys.setenv('SCRIBD_SESSION_KEY' = out$session_key)
     return(out)
 }
 
@@ -31,6 +31,6 @@ function(username,
     scribd_query(method = "user.signup", 
                  args = a,
                  ...)
-    options('scribd_session_key' = out$session_key)
+    options('SCRIBD_SESSION_KEY' = out$session_key)
     return(out)
 }

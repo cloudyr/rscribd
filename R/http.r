@@ -2,10 +2,10 @@ scribd_query <-
 function(method, 
          args = NULL,
          verb = "GET",
-         api_key = getOption("scribd_api_key"),
-         session_key = getOption("scribd_session_key", NULL),
-         my_user_id = getOption("scribd_user", NULL),
-         secret_key = getOption("scribd_secret_key", NULL),
+         api_key = Sys.getenv("SCRIBD_API_KEY"),
+         session_key = Sys.getenv("SCRIBD_SESSION_KEY"),
+         my_user_id = Sys.getenv("SCRIBD_USER"),
+         secret_key = Sys.getenv("SCRIBD_SECRET_KEY"),
          base_url = "https://api.scribd.com/api", 
          ...)
 {
@@ -13,21 +13,22 @@ function(method,
     args$method <- method
     
     # if no session_key but api_key, allow the operation anonymously
-    if(!is.null(session_key)) {
-        if(is.null(api_key))
+    if(!is.null(session_key) && session_key != "") {
+        if (is.null(api_key) || api_key == "") {
             stop("Must supply `api_key` and `session_key`")
+        }
         args$session_key <- session_key
     }
-    if(!is.null(api_key)){
+    if (!is.null(api_key)  && api_key != "") {
         args$api_key <- api_key
-    } else
+    } else {
         stop("Must supply `api_key`")
-    
-    if(!is.null(my_user_id))
+    }
+    if (!is.null(my_user_id) && my_user_id != "") {
         args$my_user_id <- my_user_id
-    
+    }
     # request signing
-    if(!is.null(secret_key)){
+    if(!is.null(secret_key) && secret_key != ""){
         # alphabetically sort args by arg name (exclude `file` arg, if applicable)
         a <- unlist(args)
         if('file' %in% names(a))
@@ -42,7 +43,7 @@ function(method,
     }
     
     # execute request
-    if(verb == "GET"){
+    if(verb == "GET") {
         out <- GET(base_url, query = args, ...)
     } else if(verb == "POST") {
         out <- POST(base_url, query = args, ...)
