@@ -4,10 +4,10 @@
 \description{Execute a Sribd API query}
 \usage{
 scribd_query(method, args = NULL, verb = "GET",
-             api_key = getOption("scribd_api_key"),
-             session_key = getOption("scribd_session_key", NULL),
-             my_user_id = getOption("scribd_user", NULL),
-             secret_key = getOption("scribd_secret_key", NULL),
+             api_key = getOption("SCRIBD_API_KEY"),
+             session_key = getOption("SCRIBD_SESSION_KEY", NULL),
+             my_user_id = getOption("SCRIBD_USER", NULL),
+             secret_key = getOption("SCRIBD_SECRET_KEY", NULL),
              base_url = "https://api.scribd.com/api", 
              ...)
 }
