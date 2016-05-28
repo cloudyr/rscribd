@@ -1,2 +1,12 @@
 language: r
 sudo: required
+r_packages:
+- covr
+- drat
+after_success:
+- Rscript -e 'library("covr");codecov()'
+- test $TRAVIS_PULL_REQUEST == "false" && test $TRAVIS_BRANCH == "master" && bash
+  drat.sh
+env:
+  global:
+    secure: bJyuveZrw8MStun0Jf9DPg3/mksgBoOmaB1Qvq1wrhHYUmK+VXFhttggh5EQ8QszMwk3BJ5n7BzymjIS798r3fz1yfTUbneVu9eB2qCPALnLaC4Xa2nx8VaGWjy73iz+3L1J0Jhon/jgP7ITKhI7ynX4aabzY+42KLjpZzG6X4U=

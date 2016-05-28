@@ -2,7 +2,7 @@ Package: rscribd
 Type: Package
 Title: Scribd API Client Package for R
 Version: 0.1.1
-Date: 2016-02-19
+Date: 2016-05-28
 Authors@R: c(person("Thomas J.", "Leeper",
                     role = c("aut", "cre"),
                     email = "thosjleeper@gmail.com"))
@@ -10,5 +10,5 @@ Maintainer: Thomas J. Leeper <thosjleeper@gmail.com>
 Imports: httr, XML, digest, tools, utils
 Description: Publish and retrieve documents from the Scribd publishing platform.
 License: MIT + file LICENSE
-URL: https://github.com/leeper/rscribd
-BugReports: https://github.com/leeper/rscribd/issues
+URL: https://github.com/cloudyr/rscribd
+BugReports: https://github.com/cloudyr/rscribd/issues

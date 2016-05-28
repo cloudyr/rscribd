@@ -63,23 +63,28 @@ coll_list(mycol)
 
 ## Requirements and Installation ##
 
-[![CRAN Version](http://www.r-pkg.org/badges/version/rscribd)](http://cran.r-project.org/package=rscribd)
+[![CRAN Version](http://www.r-pkg.org/badges/version/rscribd)](https://cran.r-project.org/package=rscribd)
 ![Downloads](http://cranlogs.r-pkg.org/badges/rscribd)
-[![Travis-CI Build Status](https://travis-ci.org/leeper/rscribd.png?branch=master)](https://travis-ci.org/leeper/rscribd)
-[![codecov.io](http://codecov.io/github/leeper/rscribd/coverage.svg?branch=master)](http://codecov.io/github/leeper/rscribd?branch=master)
+[![Travis-CI Build Status](https://travis-ci.org/cloudyr/rscribd.png?branch=master)](https://travis-ci.org/cloudyr/rscribd)
+[![codecov.io](http://codecov.io/github/cloudyr/rscribd/coverage.svg?branch=master)](http://codecov.io/github/cloudyr/rscribd?branch=master)
 
-**rscribd** is available on [CRAN](http://cran.r-project.org/web/packages/rscribd/index.html), so that it can be installed using:
+**rscribd** is (not yet) available on [CRAN](http://cran.r-project.org/web/packages/rscribd/index.html), so that it can be installed using:
 
 ```
 install.packages('rscribd')
 ```
 
-The development version can be installed directly from GitHub using `ghit`:
+To install the latest development version of **rscribd** from GitHub:
 
-```
-if(!require('ghit')) {
-    install.packages('ghit')
+```R
+# latest stable version
+install.packages("rscribd", repos = c(getOption("repos"), "http://cloudyr.github.io/drat"))
+
+# latest (unstable) version from GitHub
+if(!require("ghit")){
+    install.packages("ghit")
 }
-ghit::install_github('leeper/rscribd')
+ghit::install_github("cloudyr/rscribd")
 ```
 
+[![cloudyr project logo](http://i.imgur.com/JHS98Y7.png)](https://github.com/cloudyr)
