@@ -3,9 +3,9 @@ function(method,
          args = NULL,
          verb = "GET",
          api_key = Sys.getenv("SCRIBD_API_KEY"),
-         session_key = Sys.getenv("SCRIBD_SESSION_KEY"),
-         my_user_id = Sys.getenv("SCRIBD_USER"),
-         secret_key = Sys.getenv("SCRIBD_SECRET_KEY"),
+         session_key = Sys.getenv("SCRIBD_SESSION_KEY", NULL),
+         my_user_id = Sys.getenv("SCRIBD_USER", NULL),
+         secret_key = Sys.getenv("SCRIBD_SECRET_KEY", NULL),
          base_url = "https://api.scribd.com/api", 
          ...)
 {
