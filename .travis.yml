@@ -10,4 +10,4 @@ after_success:
   drat.sh
 env:
   global:
-    secure: bJyuveZrw8MStun0Jf9DPg3/mksgBoOmaB1Qvq1wrhHYUmK+VXFhttggh5EQ8QszMwk3BJ5n7BzymjIS798r3fz1yfTUbneVu9eB2qCPALnLaC4Xa2nx8VaGWjy73iz+3L1J0Jhon/jgP7ITKhI7ynX4aabzY+42KLjpZzG6X4U=
+    secure: U6yY2llcPE6QVi08Zbb3hIK+9eMDAvBdbakZA51UBlqgz8JMzZAfDjdOvPYxOmokMuyxoBcFYHpuqsGYoVlsMn4RoYYvcoDFtWxsdVJDX5rxfp7Mv5Kp5U9PM8Q/Fpn5fmX5CjdxHYEuZ0c+blJMtOms1jcq7TmUYZ16YIbnaA4=
