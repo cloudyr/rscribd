@@ -4,9 +4,10 @@ Title: Scribd API Client Package for R
 Version: 0.1.2
 Date: 2016-05-28
 Authors@R: c(person("Thomas J.", "Leeper",
-                    role = c("aut", "cre"),
-                    email = "thosjleeper@gmail.com"))
-Maintainer: Thomas J. Leeper <thosjleeper@gmail.com>
+                    role = c("aut", "cre"), 
+                    email = "thosjleeper@gmail.com",
+                    comment = c(ORCID = "0000-0003-4097-6326"))
+             )
 Imports: tools, utils, httr, XML, digest
 Description: Publish and retrieve documents from the Scribd publishing platform.
 License: MIT + file LICENSE
